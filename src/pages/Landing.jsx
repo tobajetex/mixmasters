@@ -9,13 +9,15 @@ import { useQuery } from "@tanstack/react-query";
 
 const searchCocktailsQuery = (searchTerm) => {
 const normalizedTerm = searchTerm.trim() || "all";
-  return {
-    queryKey: ["search", normalizedTerm],
-    queryFn: async () => {
-      const response = await axios.get(`${cocktailSearchUrl}${encodeURIComponent(normalizedTerm)}`);
-      return response.data.drinks;
-    },
-  };
+
+return {
+  queryKey: ["search", normalizedTerm],
+  queryFn: async () => {
+    const url = normalizedTerm === "all" ? cocktailSearchUrl : `${cocktailSearchUrl}${encodeURIComponent(normalizedTerm)}`;
+    const response = await axios.get(url);
+    return response.data.drinks ?? [];
+  },
+};
 };
 
 export const loader =
