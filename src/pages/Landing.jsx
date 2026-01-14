@@ -1,3 +1,4 @@
+import { useSearchParams } from "react-router-dom";
 import { useLoaderData } from "react-router-dom";
 import axios from "axios";
 import CocktailList from "../components/CocktailList";
@@ -30,7 +31,9 @@ export const loader =
   };
 
 const Landing = () => {
-  const { searchTerm } = useLoaderData();
+  const [searchParams] = useSearchParams();
+  const searchTerm = searchParams.get("search") || "";
+
   const { data: drinks } = useQuery(searchCocktailsQuery(searchTerm));
 
   return (
