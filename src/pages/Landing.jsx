@@ -3,7 +3,7 @@ import axios from "axios";
 import CocktailList from "../components/CocktailList";
 import SearchForm from "../components/SearchForm";
 const cocktailSearchUrl =
-  "https://www.thecocktaildb.com/api/json/v1/1/search.php?s=a";
+  "https://www.thecocktaildb.com/api/json/v1/1/search.php?s=";
 
 import { useQuery } from "@tanstack/react-query";
 
