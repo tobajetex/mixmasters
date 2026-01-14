@@ -1,40 +1,29 @@
-import { useSearchParams } from "react-router-dom";
-import { useLoaderData } from "react-router-dom";
-import axios from "axios";
-import CocktailList from "../components/CocktailList";
-import SearchForm from "../components/SearchForm";
+import { useSearchParams } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
+import SearchForm from '../components/SearchForm';
+import CocktailList from '../components/CocktailList';
+
 const cocktailSearchUrl =
   "https://www.thecocktaildb.com/api/json/v1/1/search.php?s=";
 
-import { useQuery } from "@tanstack/react-query";
-
-const searchCocktailsQuery = (searchTerm) => {
-const normalizedTerm = searchTerm.trim() || "all";
-
-return {
-  queryKey: ["search", normalizedTerm],
-  queryFn: async () => {
-    const url = normalizedTerm === "all" ? cocktailSearchUrl : `${cocktailSearchUrl}${encodeURIComponent(normalizedTerm)}`;
-    const response = await axios.get(url);
-    return response.data.drinks ?? [];
-  },
+const fetchCocktails = async (searchTerm) => {
+  if (!searchTerm) return [];
+  const { data } = await axios.get(
+    `${cocktailSearchUrl}${encodeURIComponent(searchTerm)}`
+  );
+  return data.drinks ?? [];
 };
-};
-
-export const loader =
-  (queryClient) =>
-  async ({ request }) => {
-    const url = new URL(request.url);
-    const searchTerm = url.searchParams.get("search") || "";
-    await queryClient.ensureQueryData(searchCocktailsQuery(searchTerm));
-    return { searchTerm };
-  };
 
 const Landing = () => {
   const [searchParams] = useSearchParams();
-  const searchTerm = searchParams.get("search") || "";
+  const searchTerm = searchParams.get('search') || '';
 
-  const { data: drinks } = useQuery(searchCocktailsQuery(searchTerm));
+  const { data: drinks } = useQuery({
+    queryKey: ['search', searchTerm],
+    queryFn: () => fetchCocktails(searchTerm),
+    keepPreviousData: true,
+  });
 
   return (
     <>
@@ -43,4 +32,5 @@ const Landing = () => {
     </>
   );
 };
+
 export default Landing;
