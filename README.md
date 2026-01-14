@@ -1,8 +1,8 @@
-🍹 Cocktail Search App (React)
+ Cocktail Search App (React)
 
 A React-based web application that allows users to search for a wide variety of cocktail drinks. The app fetches real-time data from TheCocktailDB API and displays detailed information about each drink in a clean, responsive interface.
 
-✨ Features
+ Features
 
 Search cocktails by name in real time
 
@@ -14,7 +14,7 @@ Dynamic UI updates using React state and components
 
 API-driven content from TheCocktailDB
 
-🛠️ Built With
+ Built With
 
 React
 
@@ -23,3 +23,4 @@ JavaScript (ES6+)
 CSS
 
 TheCocktailDB API
+React Query
