@@ -8,10 +8,11 @@ const cocktailSearchUrl =
 import { useQuery } from "@tanstack/react-query";
 
 const searchCocktailsQuery = (searchTerm) => {
+const normalizedTerm = searchTerm.trim() || "all";
   return {
-    queryKey: ["search", searchTerm || "all"],
+    queryKey: ["search", normalizedTerm],
     queryFn: async () => {
-      const response = await axios.get(`${cocktailSearchUrl}${searchTerm.trim()}`);
+      const response = await axios.get(`${cocktailSearchUrl}${encodeURIComponent(normalizedTerm)}`);
       return response.data.drinks;
     },
   };
