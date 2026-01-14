@@ -1,23 +1,31 @@
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Wrapper from '../assets/wrappers/SearchForm';
-import { Form, useNavigation } from 'react-router-dom';
 
 const SearchForm = ({ searchTerm }) => {
-  const navigation = useNavigation();
-  const isSubmitting = navigation.state === 'submitting';
+  const [input, setInput] = useState(searchTerm);
+  const navigate = useNavigate();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    navigate(`/?search=${encodeURIComponent(input)}`);
+  };
+
   return (
     <Wrapper>
-      <Form className='form'>
+      <form className="form" onSubmit={handleSubmit}>
         <input
-          type='search'
-          name='search'
-          className='form-input'
-          defaultValue={searchTerm}
+          type="search"
+          className="form-input"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
         />
-        <button type='submit' className='btn' disabled={isSubmitting}>
-          {isSubmitting ? 'searching...' : 'search'}
+        <button type="submit" className="btn">
+          Search
         </button>
-      </Form>
+      </form>
     </Wrapper>
   );
 };
+
 export default SearchForm;
